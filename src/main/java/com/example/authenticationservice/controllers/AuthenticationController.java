@@ -26,8 +26,8 @@ public class AuthenticationController {
         User created = new User(0,
                 registerRequest.getUsername(),
                 registerRequest.getPassword(),
-                registerRequest.getFirstName(),
-                registerRequest.getLastName());
+                registerRequest.getEmail()
+                );
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(created));
     }
 
