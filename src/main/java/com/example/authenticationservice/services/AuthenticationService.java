@@ -22,7 +22,7 @@ public class AuthenticationService {
     public User register(User user) {
         Optional<User> u = userRepository.findByEmail(user.getEmail());
         if (u.isPresent()) {
-            logger.log(level, "User: " + u.get());
+            logger.log(level, () -> "User already exists: " + u.get());
             throw new EmailAlreadyRegisteredException();
         }
         return userRepository.save(user);

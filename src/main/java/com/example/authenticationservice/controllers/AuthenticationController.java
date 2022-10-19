@@ -24,7 +24,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
-        logger.log(logLevel, String.format("Got to register api with request: %s", registerRequest));
+        logger.log(logLevel, () -> "Got to register api with request: " + registerRequest);
         User created = new User(0,
                 registerRequest.getUsername(),
                 registerRequest.getPassword(),
