@@ -4,9 +4,11 @@ import com.example.authenticationservice.exceptions.EmailAlreadyRegisteredExcept
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
+@RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
     public ResponseEntity<Object> handleEmailAlreadyRegisteredException(HttpServletRequest request, EmailAlreadyRegisteredException emailAlreadyRegisteredException){

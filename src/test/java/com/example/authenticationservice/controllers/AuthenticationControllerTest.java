@@ -1,7 +1,13 @@
 package com.example.authenticationservice.controllers;
 
 import com.example.authenticationservice.dtos.RegisterRequest;
+import com.example.authenticationservice.exceptions.EmailAlreadyRegisteredException;
+import com.example.authenticationservice.models.User;
+import com.example.authenticationservice.repositories.UserRepository;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,14 +16,21 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 @SpringBootTest
 public class AuthenticationControllerTest {
     @Autowired
     AuthenticationController authenticationController;
 
-    @Before
+    @Autowired
+    UserRepository userRepository;
+    @BeforeEach
     public void setup(){
         authenticationController.register(new RegisterRequest("testuser","password", "test@mail.com"));
+    }
+    @AfterEach
+    public void teardown(){
+        userRepository.delete(userRepository.findByEmail("test@mail.com").get());
     }
     @Test
     void registerNewUser_success(){
@@ -28,10 +41,9 @@ public class AuthenticationControllerTest {
     }
 
     @Test
-    void registerUserEmailTaken_expectedFailed(){
-        RegisterRequest RR = new RegisterRequest("testuser","password", "test@mail.com");
-        ResponseEntity response  = authenticationController.register(RR);
-        assertEquals(HttpStatus.CONFLICT , response.getStatusCode());
-        assertTrue(response.getBody().toString().contains("This email has already been registered to an account"));
+    void registerUserEmailTaken_ExceptionExpected(){
+        Exception exception  = assertThrows(EmailAlreadyRegisteredException.class, () -> authenticationController.register(new RegisterRequest("testuser","password", "test@mail.com")));
+        String expectedMessage = "This email is already associated with an account";
+        assertTrue(exception.getMessage().contains(expectedMessage));
     }
 }
