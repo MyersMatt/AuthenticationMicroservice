@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.Assert.*;
 
 @SpringBootTest
-public class AuthenticationControllerTest {
+class AuthenticationControllerTest {
     @Autowired
     AuthenticationController authenticationController;
 
