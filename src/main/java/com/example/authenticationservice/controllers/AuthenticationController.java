@@ -18,16 +18,18 @@ public class AuthenticationController {
     private static final Level logLevel = Level.INFO;
     private final AuthenticationService authenticationService;
 
-    public AuthenticationController(AuthenticationService authenticationService){this.authenticationService = authenticationService;}
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest){
+    public ResponseEntity<User> register(@RequestBody RegisterRequest registerRequest) {
         logger.log(logLevel, String.format("Got to register api with request: %s", registerRequest));
         User created = new User(0,
                 registerRequest.getUsername(),
                 registerRequest.getPassword(),
                 registerRequest.getEmail()
-                );
+        );
         return ResponseEntity.status(HttpStatus.CREATED).body(authenticationService.register(created));
     }
 

@@ -14,10 +14,14 @@ public class AuthenticationService {
     private static final Logger logger = Logger.getLogger(AuthenticationService.class.getName());
     private static final Level level = Level.INFO;
     private final UserRepository userRepository;
-    public AuthenticationService(UserRepository userRepository){this.userRepository = userRepository;}
+
+    public AuthenticationService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public User register(User user) {
-        Optional<User> u = userRepository.findByEmail(user.getEmail()) ;
-        if(u.isPresent()) {
+        Optional<User> u = userRepository.findByEmail(user.getEmail());
+        if (u.isPresent()) {
             logger.log(level, "User: " + u.get());
             throw new EmailAlreadyRegisteredException();
         }

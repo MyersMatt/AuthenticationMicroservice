@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class RestExceptionHandler {
     @ExceptionHandler(EmailAlreadyRegisteredException.class)
-    public ResponseEntity<Object> handleEmailAlreadyRegisteredException(HttpServletRequest request, EmailAlreadyRegisteredException emailAlreadyRegisteredException){
+    public ResponseEntity<Object> handleEmailAlreadyRegisteredException(HttpServletRequest request, EmailAlreadyRegisteredException emailAlreadyRegisteredException) {
         String errorMessage = "This email has already been registered to an account";
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
