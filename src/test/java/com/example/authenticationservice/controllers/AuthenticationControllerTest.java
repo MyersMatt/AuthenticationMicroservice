@@ -41,7 +41,8 @@ public class AuthenticationControllerTest {
 
     @Test
     void registerUserEmailTaken_ExceptionExpected() {
-        Exception exception = assertThrows(EmailAlreadyRegisteredException.class, () -> authenticationController.register(new RegisterRequest("testuser", "password", "test@mail.com")));
+        RegisterRequest RR = new RegisterRequest("testuser", "password", "test@mail.com");
+        Exception exception = assertThrows(EmailAlreadyRegisteredException.class, () -> authenticationController.register(RR));
         String expectedMessage = "This email is already associated with an account";
         assertTrue(exception.getMessage().contains(expectedMessage));
     }
